@@ -49,38 +49,33 @@ def get_hero(hero_id):
         if hero_id == i['id']:
             return i['name']
 
-
-def get_match_picks_ids(match_data):
-    players = match_data['result']['players']
-    radiant_heroes = [i['hero_id'] for i in players[:5]]
-    dire_heroes = [i['hero_id'] for i in players[5:]]
-    return radiant_heroes, dire_heroes
-
-
-def get_match_picks_names(picks_ids):
-    radiant_heroes = [get_hero(i) for i in picks_ids[0]]
-    dire_heroes = [get_hero(i) for i in picks_ids[1]]
-    return radiant_heroes, dire_heroes
-
-
-def get_match_heroes(match_data):
-    return [get_hero(i['hero_id'] for i in match_data['result']['players'])]
-
-
 def check_match_validity(match_id):
     match_data = get_specific_match_data(match_id)
 
     if match_data['result']['duration'] < 1080:
         return False
 
-    # leavers_count = 0
-    # for p in match_data['result']['players']:
-    #     leavers_count += p['leaver_status']
-    #
-    # if leavers_count >= 2:
-    #     return False
-
     return match_data
+
+
+# def get_match_picks_ids(match_data):
+#     players = match_data['result']['players']
+#     radiant_heroes = [i['hero_id'] for i in players[:5]]
+#     dire_heroes = [i['hero_id'] for i in players[5:]]
+#     return radiant_heroes, dire_heroes
+
+
+# def get_match_picks_names(picks_ids):
+#     radiant_heroes = [get_hero(i) for i in picks_ids[0]]
+#     dire_heroes = [get_hero(i) for i in picks_ids[1]]
+#     return radiant_heroes, dire_heroes
+#
+#
+# def get_match_heroes(match_data):
+#     return [get_hero(i['hero_id'] for i in match_data['result']['players'])]
+
+
+
 
 
 # def get_match_picks2(match_id):

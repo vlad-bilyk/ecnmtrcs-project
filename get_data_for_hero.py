@@ -1,10 +1,12 @@
+# useless file
+
 import csv
 import json
 import math
 
 import requests
 
-from data_functions import check_match_validity, get_last_match_ids, get_hero
+from match_data_functions import check_match_validity, get_last_match_ids, get_hero
 from write_csv import write_csv_from_dict
 
 key = "0E51DE6A17DA1683650DC1EEACAD43DE"
