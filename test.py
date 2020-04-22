@@ -1,7 +1,7 @@
-data = {'matchups': []}
-data['matchups'].append(1)
-data['b'] = 3
-import json
+a = list(range(0, 30))
 
-with open('lol.json', 'w') as outfile:
-    json.dump(data, outfile)
+print(a)
+k = 5
+
+a = a[0::k]
+print(a)
