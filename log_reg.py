@@ -1,12 +1,8 @@
 from statistics import mean
-
 import statsmodels.api as sm
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
-from sklearn.metrics import roc_auc_score
-from sklearn.metrics import roc_curve
 import matplotlib.pyplot as plt
 
 
@@ -57,20 +53,14 @@ def run_logreg(x, y):
     print("Correct predictions: {}".format(correct_pred))
     print("Incorrect predictions: {}".format(incorrect_pred))
 
-    ## classification report
-    print(classification_report(y_test, y_pred))
-
-    ## ROC curve
-    logit_roc_auc = roc_auc_score(y_test, logreg.predict(x_test))
-    fpr, tpr, thresholds = roc_curve(y_test, logreg.predict_proba(x_test)[:, 1])
-    plt.figure()
-    plt.plot(fpr, tpr, label='Logistic Regression (area = %0.2f)' % logit_roc_auc)
-    plt.plot([0, 1], [0, 1], 'r--')
-    plt.xlim([0.0, 1.0])
-    plt.ylim([0.0, 1.05])
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('True Positive Rate')
-    plt.title('Receiver operating characteristic')
-    plt.legend(loc="lower right")
-    # plt.savefig('plots/Log_ROC')
+    fig, ax = plt.subplots(figsize=(8, 8))
+    ax.imshow(confusion_matrix)
+    ax.grid(False)
+    ax.xaxis.set(ticks=(0, 1), ticklabels=('Predicted 0s', 'Predicted 1s'))
+    ax.yaxis.set(ticks=(0, 1), ticklabels=('Actual 0s', 'Actual 1s'))
+    ax.set_ylim(1.5, -0.5)
+    for i in range(2):
+        for j in range(2):
+            ax.text(j, i, confusion_matrix[i, j], ha='center', va='center', color='red')
+    plt.savefig('plots/cmatrix')
     plt.show()
