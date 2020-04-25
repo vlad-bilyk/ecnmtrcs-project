@@ -1,3 +1,5 @@
+from statistics import mean
+
 import statsmodels.api as sm
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
@@ -15,12 +17,12 @@ def run_logreg(x, y):
     :return: None
     """
 
-    # ------------------- implementing the model -------------------
+    # ------------------- creating a model -------------------
     logit_model = sm.Logit(y, x)
     result = logit_model.fit()
     print(result.summary2())
 
-    # ------------------- logistic regression model fitting -------------------
+    # ------------------- fitting the model -------------------
     ## randomly splits the data into train and test subsets
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
     logreg = LogisticRegression()
@@ -28,8 +30,24 @@ def run_logreg(x, y):
 
     ## predicting values of y on test subset of x
     y_pred = logreg.predict(x_test)
+    ## predicting probability of y = 1
+    y_prob = logreg.predict_proba(x_test)
+    y_prob_win = list(map(lambda x: x[1], y_prob))
+
+    # ------------------- results -------------------
+    ## accuracy of predictions
     acc = logreg.score(x_test, y_test)
     print("Accuracy on test set: {}".format(acc))
+
+    errors = [abs(yt - yp) for yt, yp in zip(y_test, y_prob_win)]
+    n = range(len(errors))
+
+    plt.plot(n, errors, 'o', markersize=1)
+    plt.title("Radiant win probability: prediction errors")
+    plt.savefig('plots/errors')
+    plt.show()
+
+    print("Predicted radiant win probability average error: {}".format(mean(errors)))
 
     ## confusion matrix
     confusion_matrix = metrics.confusion_matrix(y_test, y_pred)
@@ -54,5 +72,5 @@ def run_logreg(x, y):
     plt.ylabel('True Positive Rate')
     plt.title('Receiver operating characteristic')
     plt.legend(loc="lower right")
-    plt.savefig('plots/Log_ROC')
+    # plt.savefig('plots/Log_ROC')
     plt.show()
