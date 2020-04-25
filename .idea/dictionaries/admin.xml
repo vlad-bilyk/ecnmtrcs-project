@@ -1,7 +1,10 @@
 <component name="ProjectDictionaryState">
   <dictionary name="admin">
     <words>
+      <w>logit</w>
+      <w>logreg</w>
       <w>matchups</w>
+      <w>newdata</w>
       <w>teamawin</w>
     </words>
   </dictionary>
